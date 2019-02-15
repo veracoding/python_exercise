@@ -162,3 +162,62 @@ class Linked_list:
             return tmp[-k]
    
 
+#输入两个链表，找出它们的第一个公共结点。
+#先得到两链表长度 假设为l,m 第一个比第二个长（l-m）,所以先行（l-m）节点，之后同步遍历直到找到相同节点
+class Solution:
+    def FindFirstCommonNode(self,pHead1, pHead2):
+        # write code here
+        len1=len2=0
+        p1=pHead1
+        while p1:
+            len1+=1
+            p1=p1.next
+        p2=pHead2
+        while p2:
+            len2+=1
+            p2=p2.next
+        diff =len1 - len2
+        while diff > 0:
+            pHead1 = pHead1.next
+            diff-= 1
+        while diff < 0:
+            pHead2 = pHead2.next
+            diff+=1
+        while pHead1 != pHead2:
+            pHead1 = pHead1.next
+            pHead2 = pHead2.next
+        return pHead1
+        
+#链表中环的入口结点 
+#给一个链表，若其中包含环，请找出该链表的环的入口结点，否则，输出null。
+#分析：通过两个指针，分别从链表的头节点出发，一个每次向后移动一步，另一个移动两步，两个指针移动速度不一样，如果存在环，那么两个指针一定会在环里相
+#问题2：若存在环，如何找到环的入口点
+#      解答：如图中所示，设链起点到环入口点间的距离为x，环入口点到问题1中fast与low重合点的距离为y，又设在fast与low重合时fast已绕环n周（n>0），且此时low移动总长度为s，则fast移动总长度为2s，环的长度为r。则
+#       2s = s + nr             1
+#       s = x + y               2
+#     由1式得  s = nr                 
+#      代入2式得
+#      nr = x + y
+#      x=nr - y                 3
+# 现让一指针p1从链表起点处开始遍历，指针p2从encounter处开始遍历，且p1和p2移动步长均为1。则当p1移动x步即到达环的入口点，由3可知，此时p2也已移动x步即nr - y步。由于p2是从encounter处开始移动，故p2移动nr步是移回到了encounter处，再退y步则是到了环的入口点。也即，当p1移动x步第一次到达环的入口点时，p2也恰好到达了该入口点。
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+class Solution:
+    def EntryNodeOfLoop(self, pHead):
+        # write code here
+        if pHead==None or pHead.next==None or pHead.next.next==None:
+            return None
+        fast = pHead.next.next
+        slow = pHead.next
+        while fast != slow :
+            if fast.next==None or fast.next.next==None:
+                return None
+            slow = slow.next
+            fast = fast.next.next
+        fast=pHead
+        while fast!= slow:
+            fast=fast.next
+            slow=slow.next
+        return fast
