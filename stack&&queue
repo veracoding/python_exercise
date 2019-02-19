@@ -23,3 +23,27 @@ class Solution:
                 else:
                     return True
             index_a+=1
+
+
+#用两个栈实现队列 
+#用两个栈来实现一个队列，完成队列的Push和Pop操作。 队列中的元素为int类型
+#注意当stack2不为空时push node，要先把Stack2的压回stack1
+class Solution:
+    def __init__(self):
+        self.stack1 = []
+        self.stack2 = []
+    def push(self, node):
+        # write code here
+        if len(self.stack1)==0 and len(self.stack2)!=0:
+            while self.stack2:
+                self.stack1.append(self.stack2.pop())
+        self.stack1.append(node)
+
+    def pop(self):
+        if len(self.stack1)==0and len(self.stack2)==0:
+            return None
+        if len(self.stack1)!=0 and len(self.stack2)==0:
+            while self.stack1!=[]:
+                self.stack2.append(self.stack1.pop())
+        return self.stack2.pop()
+
