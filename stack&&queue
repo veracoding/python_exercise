@@ -1,0 +1,25 @@
+#栈的压入、弹出序列 
+#输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否可能为该栈的弹出顺序。
+#假设压入栈的所有数字均不相等。例如序列1,2,3,4,5是某栈的压入顺序，序列4,5,3,2,1是该压栈序列对应的一个弹出序列，
+#但4,3,5,1,2就不可能是该压栈序列的弹出序列。（注意：这两个序列的长度是相等的）
+class Solution:
+    def IsPopOrder(self, pushV, popV):
+        # write code here
+        len_a=len(pushV)
+        len_b=len(popV)
+        if len_a!=len_b or len_b==0:
+            return False
+        index_a,index_b=0,0
+        tmp=[]
+        while pushV:
+            num=pushV[index_a]
+            tmp.append(num)
+            while tmp and tmp[-1]==popV[index_b]:
+                    tmp.pop()
+                    index_b+=1
+            if index_a==len_a-1:
+                if tmp:
+                    return False
+                else:
+                    return True
+            index_a+=1
