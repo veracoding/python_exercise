@@ -63,3 +63,32 @@ class Solution:
             while self.stack1:
                 self.stack2.append(self.stack1.pop())
         return self.stack2.pop()
+
+
+# 包含min函数的栈
+# 题目：定义栈的数据结构，请在该类型中实现一个能够得到栈最小元素的min函数。
+class Solution:
+    def __init__(self):
+        self.stack1=[]
+        self.stack_min=[]
+    def push(self, node):
+        # write code here
+        self.stack1.append(node)
+        if self.stack_min == []:
+            self.stack_min.append(node)
+        if self.stack1[-1]  < self.stack_min[-1]:
+            self.stack_min.append(node)
+        else:
+            self.stack_min.append(self.stack_min[-1])
+    def pop(self):
+        # write code here
+        if self.stack1:
+            self.stack_min.pop()
+            return self.stack1.pop()
+    def top(self):
+        # write code here
+        if self.stack1:
+            return self.stack1[-1]
+    def min(self):
+        if self.stack_min:
+            return self.stack_min[-1]
