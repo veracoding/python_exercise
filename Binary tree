@@ -1,0 +1,42 @@
+#Bianry Tree
+class TreeNode:
+    def __init__(self,data):
+        self.data=data
+        self.left=None
+        self.right=None
+
+class BinaryTree:
+    def __init__(self):
+        self.root=None
+
+    def insert(self,value):
+        if self.root==None:
+            self.root=TreeNode(value)
+        else:
+            cur=self.root
+            while value < cur.data:
+                if cur.left:
+                    cur = cur.left
+                else:
+                    cur.left=TreeNode(value)
+
+
+            while value > cur.data:
+                if cur.right:
+                    cur=cur.right
+                else:
+                    cur.right=TreeNode(value)
+
+    def print_tree_in_order(self,root):
+        self.root=root
+        if root:
+            self.print_tree_in_order(root.left)
+            print(root.data)
+            self.print_tree_in_order(root.right)
+    def print_tree_pre_order(self,root):
+        self.root=root
+        if root:
+            print(root.data)
+            self.print_tree_pre_order(root.left)
+            self.print_tree_pre_order(root.right)
+
