@@ -39,4 +39,39 @@ class BinaryTree:
             print(root.data)
             self.print_tree_pre_order(root.left)
             self.print_tree_pre_order(root.right)
+------------------------------------------------------------------
+#二叉树的下一个结点
+#给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。
+#思路： 1，若给定节点为空，返回
+#2，若给定节点存在右子树，则右子树的左节点指针遍历找到的叶子结点为下一个节点
+#3. 给定节点不存在右子树： a,给定结点为其父节点的左孩子，下一个节点为其父节点 b，给定节点为其父节点右孩子，则指针指向父节点的父节点遍历直到当前节点为其父节点的左，返回其父节点
+class Tree：
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+        self.next = None
 
+class Solution:
+    def GetNext(self, node):
+        # write code here
+        if node == None:
+            return
+        if node.right:
+            node = node.right
+            while node.left:
+                node = node.left
+            return node
+        else:
+            if node.next == None:
+                return
+            if node == node.next.left:
+                return node.next
+            else:
+                if node == node.next.right:
+                    if node.next == node.next.next.left:
+                        return node.next.next
+                    else:
+                        return
+
+-------------------------------------------------------------------------
