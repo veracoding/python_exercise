@@ -73,5 +73,37 @@ class Solution:
                         return node.next.next
                     else:
                         return
+                        
 
 -------------------------------------------------------------------------
+#对称的二叉树
+#请实现一个函数，用来判断一颗二叉树是不是对称的。注意，如果一个二叉树同此二叉树的镜像是同样的，定义其为对称的。
+#递归方法 先判断根节点 如果为空 返回true
+#左右子树对称即相同 ， 问题变为判断两个树是否相同 -->左子树右子树不存在 true ；左子树右子树根节点相同，左子树遍历根节点》左子树》右子树；
+#右子树遍历根节点》右子树》左子树 递归   ；其他 false
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+class Solution:
+    def isSymmetrical(self, pRoot):
+        # write code here
+
+        def is_the_same(left_tree,right_tree):
+            if not left_tree and not right_tree:
+                return True
+            if left_tree and right_tree and left_tree.val==right_tree.val:
+                l=is_the_same(left_tree.left,right_tree.right)
+                r=is_the_same(left_tree.right,right_tree.left)
+                return l and r
+            else:
+                return False
+        if not pRoot:
+            return True
+        else:
+            return is_the_same(pRoot.left,pRoot.right)
+            
+------------------------------------------------------------------------------
+
+
