@@ -105,5 +105,56 @@ class Solution:
             return is_the_same(pRoot.left,pRoot.right)
             
 ------------------------------------------------------------------------------
+##从上往下打印出二叉树的每个节点，同层节点从左至右打印。
+#思路：两个列表 一个用作队列弹出先加入的节点 第二个存每个结点的值
+#将新节点插入列表顺序打印
+class TreeNode:
+    def __init__(self,data):
+        self.data=data
+        self.left=None
+        self.right=None
+
+class Solution:
+    def print_in_order(self,root):
+        stack1=[root]
+        stack2=[]
+        if not root:
+            return None
+        while stack1:
+            pnode=stack1.pop(0)
+            stack2.append(pnode.data)
+            if pnode.left!=None:
+                stack1.append(pnode.left)
+            if pnode.right!=None:
+                stack1.append(pnode.right)
+        return stack2
+   
+ #按之字形顺序打印二叉树
+ #请实现一个函数按照之字形打印二叉树，即第一行按照从左到右的顺序打印，第二层按照从右至左的顺序打印，第三行按照从左到右的顺序打印，其他行以此类推
+ #定义一个标记奇偶数行，新建一个列表加入每层节点，偶数行则将列表倒叙插入结果
+    def zigzag_print(self,proot):
+        array=[]
+        result=[]
+        if not proot:
+            return None
+        array.append(proot)
+        flag=False
+        while array:
+            curnode = []
+            curres = []
+            for node in array:
+                if node.left:
+                    curnode.append(node.left)
+                if node.right:
+                    curnode.append(node.right)
+                curres.append(node.data)
+            if flag == False:
+                result.append(curres)
+                flag=True
+            else:
+                result.append(curres[::-1])
+                flag=False
+            array=curnode
+        return result
 
 
