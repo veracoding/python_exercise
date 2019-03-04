@@ -156,5 +156,30 @@ class Solution:
                 flag=False
             array=curnode
         return result
+        
+        
+        
+#把二叉树打印成多行
+#从上到下按层打印二叉树，同一层结点从左至右输出。每一层输出一行。
+    def print(self, proot):
+        array = []
+        result = []
+        if not proot:
+            return array
+        array.append(proot)
+
+        while array:
+            curnode = []
+            curres = []
+            for node in array:
+                if node.left:
+                    curnode.append(node.left)
+                if node.right:
+                    curnode.append(node.right)
+                curres.append(node.data)
+
+            result.append(curres)
+            array = curnode
+        return result
 
 
