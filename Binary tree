@@ -182,4 +182,65 @@ class Solution:
             array = curnode
         return result
 
+#二叉树的深度
+ class Solution:
+    def TreeDepth(self, pRoot):
+        d = 0
+        if not pRoot:
+            return d
+        if pRoot:
+            dleft=self.TreeDepth(pRoot.left)
+            dright=self.TreeDepth(pRoot.right)
+
+            return max(dleft,dright)+1
+
+#非递归
+class Solution:
+    def TreeDepth(self, pRoot):
+        d = 0
+        if not pRoot:
+            return d
+        if pRoot:
+            d+=1
+            cur=pRoot
+            while cur:
+                if not cur.left and not cur.right:
+                    break
+                else:
+                    if cur.left and not cur.right:
+                        cur=cur.left
+                    if cur.right and not cur.left:
+                        cur=cur.right
+                    if cur.left and cur.right:
+                        if cur.left.left:
+                            cur=cur.left
+                        else:
+                            cur=cur.right
+                    d+=1
+            return d
+            
+#平衡二叉树
+　　平衡二叉查找树：简称平衡二叉树。也称为AVL树。它具有如下几个性质：
+    可以是空树。
+    假如不是空树，任何一个结点的左子树与右子树都是平衡二叉树，并且高度之差的绝对值不超过1
+    （调用树深度函数）
+class Solution: 
+   def TreeDepth(self, pRoot):
+        d = 0
+        if not pRoot:
+            return d
+        if pRoot:
+            dleft=self.TreeDepth(pRoot.left)
+            dright=self.TreeDepth(pRoot.right)
+            return max(dleft,dright)+1
+
+    def IsBalanced_Solution(self, pRoot):
+        if not pRoot:
+            return True
+        if pRoot:
+            l_left=self.TreeDepth(pRoot.left)
+            l_right=self.TreeDepth(pRoot.right)
+            if abs(l_left-l_right)>1:
+                return False
+            return self.IsBalanced_Solution(pRoot.left) and self.IsBalanced_Solution(pRoot.right)
 
