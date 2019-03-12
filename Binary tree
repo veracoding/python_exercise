@@ -260,3 +260,27 @@ class Solution:
                 return False
             return self.IsBalanced_Solution(pRoot.left) and self.IsBalanced_Solution(pRoot.right)
 
+
+#树的子结构
+#输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）
+#两个递归：先判断两个根节点是否相等，如果相等，递归再判断其左右子树和另一个左右子树，出口为B先为空则True,A先空为False,A,B结点值不等False;
+#如果A,B结点不等，再递归A的左子树与B比较，不同再右子树
+class Solution:
+    def HasSubtree(self, pRoot1, pRoot2):
+        res = False
+        if pRoot1 and pRoot2:
+            if pRoot1.val == pRoot2.val:
+                res = self.is_subTree(pRoot1,pRoot2)
+            if res is False:
+                res = self.HasSubtree(pRoot1.left,pRoot2)
+            if res is False:
+                res = self.HasSubtree(pRoot1.right,pRoot2)
+        return res
+    def is_subTree(self,pRoot1,pRoot2):
+        if pRoot2 == None:
+            return True
+        if pRoot1 == None:
+            return False
+        if pRoot1.val != pRoot2.val:
+            return False
+        return self.is_subTree(pRoot1.left,pRoot2.left) and self.is_subTree(pRoot1.right,pRoot2.right)
