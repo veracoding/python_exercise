@@ -179,6 +179,26 @@ class Linked_list:
             cur=next
         return pre 
 
+#合并两个排序的链表 
+#输入两个单调递增的链表，输出两个链表合成后的链表，当然我们需要合成后的链表满足单调不减规则
+class Solution:
+    # 返回合并后列表
+    def Merge(self, pHead1, pHead2):
+        if not pHead1 and pHead2:
+            return pHead2
+        elif not pHead2 and pHead1:
+            return pHead1
+        elif not pHead1 and not pHead2:
+            return
+        merge = None
+        if pHead1.val < pHead2.val:
+            merge = pHead1
+            merge.next = self.Merge(pHead1.next, pHead2)
+        elif pHead1.val >= pHead2.val:
+            merge = pHead2
+            merge.next = self.Merge(pHead1, pHead2.next)
+        return merge
+
 #输入两个链表，找出它们的第一个公共结点。
 #先得到两链表长度 假设为l,m 第一个比第二个长（l-m）,所以先行（l-m）节点，之后同步遍历直到找到相同节点
 class Solution:
