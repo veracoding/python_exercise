@@ -125,6 +125,8 @@ class Linked_list:
             pre=cur
             cur=next
         self.head=pre
+        
+        
     #删除倒数第k个元素
         def del_kth_from_end(self,k):
         if k<=0 or k>self.get_length():
@@ -160,7 +162,22 @@ class Linked_list:
                 tmp.append(cur.val)
                 cur=cur.next
             return tmp[-k]
-   
+  
+  #输入一个链表，反转链表后，输出新链表的表头
+  class Solution:
+    # 返回ListNode
+    def ReverseList(self, pHead):
+        # write code here
+        if not pHead or not pHead.next:
+            return pHead
+        cur = pHead
+        pre = None
+        while cur:
+            next= cur.next
+            cur.next=pre
+            pre=cur
+            cur=next
+        return pre 
 
 #输入两个链表，找出它们的第一个公共结点。
 #先得到两链表长度 假设为l,m 第一个比第二个长（l-m）,所以先行（l-m）节点，之后同步遍历直到找到相同节点
