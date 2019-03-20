@@ -310,3 +310,24 @@ class Solution:
         if i<l-2 and left is True:
             right = self.VerifySquenceOfBST(sequence[i:l-1])
         return left and right
+
+#二叉树中和为某一值的路径 
+#注意把一个列表加到另一个列表中作为另一个列表的元素，一定要这样写list2.append(list1[:])，不然会加的是空的
+class Solution:
+    # 返回二维列表，内部每个列表表示找到的路径
+    def __init__(self):
+        self.path = []
+        self.res = []
+    def FindPath(self, root, expectNumber):
+        if not root:
+            return self.res
+        self.path.append(root.val)
+        expectNumber -= root.val
+        if expectNumber == 0 and root.left is None and root.right is None:
+            self.res.append(self.path[:])
+        if root.left:
+            self.FindPath(root.left,expectNumber)
+        if root.right:
+            self.FindPath(root.right,expectNumber)
+        self.path.pop()
+        return self.res
