@@ -1,0 +1,57 @@
+#爬取猫眼电影影片信息实例
+import re
+import requests
+def getHTMLtext(url):
+    try:
+        r = requests.get(url)
+        r.raise_for_status()
+        r.encoding = r.apparent_encoding
+        return r.text
+    except:
+        return ''
+
+def parseHTML(InfoList,html):
+    try:
+        t_tplt = re.findall(r'title=.*?">',html)
+        s_tplt = re.findall(r'<div class="channel-detail channel-detail-orange">.*?</div>',html)
+        for i in range(len(t_tplt)):
+            title = re.split(r'[title="\">]+', t_tplt[i])[1]
+            match_score = re.search(r'([\u4e00-\u9fff]+|[0-9]+.*?[\d]+)', s_tplt[i])
+            if match_score:
+                str = match_score.group(0)
+                if re.search(r'[0-9]*?[\d]', str):
+                    score_str = (re.search(r'[0-9].*?[\d]', str).group(0)).split('</i><i class="fraction">')
+                    pun = ''
+                    score = pun.join(score_str)
+                else:
+                    score = str
+                InfoList.append([title,score])
+    except:
+        print('')
+
+def printMovieInfo(InfoList):
+    temp = '{0:^4}\t{1:{3}^20}\t{2:{3}^12}'
+    print(temp.format('serial','title','score',chr(12288)))
+    count = 0
+    for i in InfoList:
+        count += 1
+        print(temp.format(count,i[0],i[1],chr(12288)))
+
+if __name__ == '__main__':
+    InfoList = []
+    depth = 2
+    movie_name = '黑衣人'
+    start_url = 'https://maoyan.com/query?kw='+ movie_name
+    for i in range(depth):
+        try:
+            url = start_url + '&offset=' + str(20*i)
+            html = getHTMLtext(url)
+            parseHTML(InfoList,html)
+
+        except:
+            url = start_url
+            html = getHTMLtext(url)
+            parseHTML(InfoList, html)
+    html = getHTMLtext(start_url)
+    parseHTML(InfoList, html)
+    printMovieInfo(InfoList)
