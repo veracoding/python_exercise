@@ -1,0 +1,51 @@
+import json
+import re
+from multiprocessing.pool import Pool
+import requests
+from requests.exceptions import RequestException
+
+def get_one_page(url):
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        return response.text
+    except:
+        return ''
+
+def parse_html(html):
+    pattern = re.compile('<dd>.*?board-index.*?>(\d+)</i>.*?data-src="(.*?)".*?name"><a'
+                         +'.*?title="(.*?)".*?</a>.*?class="star">(.*?)</p>.*?releasetime">(.*?)</p>'
+                         +'.*?score">.*?"integer">(.*?)</i>.*?fraction">(.*?)</i>.*?</dd>',re.S)   #re.S匹配所有字符
+
+    items = re.findall(pattern,html)
+
+    for item in items:
+        yield{
+            'index' : item[0],
+            'image' : item[1],
+            'title' : item[2],
+            'actors' : item[3].strip()[3:],
+            'releasetime' : item[4].strip()[5:],
+            'score' : item[5]+item[6]
+         }
+
+def write_to_file(parse_text):
+    with open('movie100.txt','a',encoding='utf-8') as f:
+        f.write(json.dumps(parse_text,ensure_ascii=False) + '\n',)  #parse_text是一个字典形式，需要用json.dumps()换成字符串格式;ensure_ascii=False可以显示中文
+    f.close()
+
+def main(offset):
+    url = 'https://maoyan.com/board/4?offset=' + str(offset)
+    html = get_one_page(url)
+    print(html)
+    for item in parse_html(html):
+        print(item)
+        write_to_file(item)
+
+if __name__ == '__main__':
+    # for i in range(10):
+    #     main(str(i*10))  网页多的话效率太慢，可以创建进程池
+    pool = Pool()
+    pool.map(main,[i*10 for i in range(10)])  #map方法执行进程函数，里面创建list设置迭代次数，效率提高
+
+
